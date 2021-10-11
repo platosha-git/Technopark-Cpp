@@ -18,10 +18,8 @@ jobs:
           sudo apt install clang-tidy
           sudo apt install lcov
 
-
       - name: Build
         run: |
-          cd hw1
           mkdir build
           cd build
           cmake .. -DCMAKE_EXPORT_COMPILE_COMANDS=1
@@ -32,7 +30,6 @@ jobs:
           cd hw1
           run-clang-tidy > build/report-clang.txt
           
-
       - name: Unit-tests
         run: |
           cd hw1/build
@@ -46,10 +43,9 @@ jobs:
           valgrind --log-file=report-valgrind1.txt -- ./mem_test
           valgrind --log-file=report-valgrind2.txt -- ./correct_test
           
-
       - name: Coverage
         run: |
           cd hw1/build
           lcov -t "hw1" -o hw1.info -c -d .
           lcov --extract hw1.info "*/hw1/*" -o hw1.info
-          genhtml -o report-lcov.html hw1.info          
+          genhtml -o report-lcov.html hw1.info
