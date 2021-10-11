@@ -28,7 +28,6 @@ jobs:
           
       - name: Clang
         run: |
-          cd hw1
           run-clang-tidy > build/report-clang.txt
           
       - name: Unit-tests
