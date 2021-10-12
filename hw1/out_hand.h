@@ -5,6 +5,6 @@
 #include "mem_operations.h"
 
 void output_struct(const struct contract *array, const size_t size);
-void output_result(const char *str1, const char *str2, const char *str3);
+output_result(char *(*res_agents), const size_t num);
 
 #endif

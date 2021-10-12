@@ -4,6 +4,8 @@
 #include "exit_codes.h"
 #include "mem_operations.h"
 
+const static size_t num_agents = 3;
+
 struct agent
 {
 	char *name;
@@ -17,7 +19,6 @@ struct agent *create_res_array(const struct contract *array, const size_t size);
 void sort_contracts(struct agent *base, const size_t num, int (*cmp)(struct agent, struct agent));
 int cmp_sum(struct agent a, struct agent b);
 
-void get_angents(char **str1, char **str2, char **str3, 
-                const struct agent *res_array, const size_t size);
+size_t get_agents(char *(*res_agents)[num_agents], const struct agent *res_array, const size_t size);
 
 #endif

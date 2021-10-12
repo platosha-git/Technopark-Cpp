@@ -17,17 +17,10 @@ void output_struct(const struct contract *array, const size_t size)
     }
 }
 
-void output_result(const char *str1, const char *str2, const char *str3)
+output_result(char *(*res_agents), const size_t num)
 {
-    if (str1 != NULL) {
-        printf("Agent 1: %s\n", str1);
+    for (size_t i = 0; i < num; i++) {
+        printf("Agent %ld: %s\n", i + 1, res_agents[i]);
     }
-
-    if (str2 != NULL) {
-        printf("Agent 2: %s\n", str2);
-    }
-
-    if (str3 != NULL) {
-        printf("Agent 3: %s\n", str3);
-    }
+    printf("\n");
 }

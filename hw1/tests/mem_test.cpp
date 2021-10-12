@@ -2,13 +2,13 @@
 #include "../exit_codes.h"
 #include "../mem_operations.c"
 
-TEST(SEARCH_TEST, Correct_create1) {
+TEST(SEARCH_TEST, CORRECT_CREATE) {
     struct contract *array = NULL;
     EXPECT_EQ(create_array(&array, 1), SUCCESS);
     free(array);
 }
 
-TEST(SEARCH_TEST, Correct_create2) {
+TEST(SEARCH_TEST, CORRECT_ASSIGNMENT) {
     struct contract *array = NULL;
     create_array(&array, 1);
     
@@ -17,7 +17,7 @@ TEST(SEARCH_TEST, Correct_create2) {
     free(array);
 }
 
-TEST(SEARCH_TEST, Correct_realloc) {
+TEST(SEARCH_TEST, CORRECT_REALOC) {
     struct contract *array = NULL;
     create_array(&array, 1);
     
@@ -26,7 +26,7 @@ TEST(SEARCH_TEST, Correct_realloc) {
     free(array);
 }
 
-TEST(SEARCH_TEST, Correct_increase) {
+TEST(SEARCH_TEST, CORRECT_INCREASE) {
     struct contract *array = NULL;
     size_t max_size = 1;
 

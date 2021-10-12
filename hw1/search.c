@@ -2,6 +2,7 @@
 #include <stdlib.h> 
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #include "search.h"
 #include "out_hand.h"
@@ -12,10 +13,10 @@ void search_agent(const struct contract *array, const size_t size)
 
     sort_contracts(res_array, size, cmp_sum);
     
-    char *str1 = NULL, *str2 = NULL, *str3 = NULL;
-    get_angents(&str1, &str2, &str3, res_array, size);
+    char *(res_agents)[num_agents];
+    size_t found_agents = get_agents(&res_agents, res_array, size);
 
-    output_result(str1, str2, str3);
+    output_result(res_agents, found_agents);
 
     free(res_array);
 }
@@ -61,25 +62,25 @@ int cmp_sum(struct agent a, struct agent b)
 }
 
 
-void get_angents(char **str1, char **str2, char **str3, 
-                const struct agent *res_array, const size_t size)
+size_t get_agents(char *(*res_agents)[num_agents], const struct agent *res_array, const size_t size)
 {
-    for (size_t i = 0; i < size; i++) {
-        char *cur_str = res_array[i].name;
+    size_t idx_agent = 0;
+    for (size_t i = 0; i < size && idx_agent < num_agents; i++) {
+        char *cur_agent = res_array[i].name;
 
-        if (*str1 == NULL) {
-            *str1 = cur_str;
-            continue;
+        bool is_new_agent = true;
+        for (size_t j = 0; j < idx_agent; j++) {
+            if (strcmp((*res_agents)[j], cur_agent) == 0) {
+                is_new_agent = false;
+                break;
+            }
         }
 
-        if (*str2 == NULL && strcmp(*str1, cur_str) != 0) {
-            *str2 = cur_str;
-            continue;
-        }
-
-        if (*str3 == NULL && strcmp(*str1, cur_str) != 0 && strcmp(*str2, cur_str) != 0) {
-            *str3 = cur_str;
-            break;
+        if (is_new_agent) {
+            (*res_agents)[idx_agent] = cur_agent;
+            idx_agent++;
         }
     }
+
+    return idx_agent;
 }
