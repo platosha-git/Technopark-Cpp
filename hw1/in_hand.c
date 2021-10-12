@@ -10,79 +10,76 @@ int input_handler(struct contract **array, size_t *size)
     size_t max_size = 1;
     int exit_code = create_array(array, max_size);
     
-
     while (exit_code == SUCCESS) {
         printf("Input contract\n");
 
-        char *type = get_string("\tInput type: ");
-        if (strcmp(type, "none") == 0) {
-            free(type);
-            break;
-        }
-
-        exit_code = correct_string(type);
+        struct contract cur_contract;
+        exit_code = input_contract(&cur_contract);
 
         if (exit_code == SUCCESS) {
-            size_t sum = get_number("\tInput sum: ");
-            getchar();
-            exit_code = correct_number(sum);
+            increase_memory(array, &max_size, *size);
 
-            if (exit_code == SUCCESS) {
-                char *contragent = get_string("\tInput contragent: ");
-                exit_code = correct_string(contragent);
-
-                if (exit_code == SUCCESS) {
-                    char *date = get_string("\tInput date (dd-mm-yyyy): ");
-                    exit_code = correct_date(date);
-
-                    if (exit_code == SUCCESS) {
-                        printf("\tInput extension\n");
-                        
-                        struct extension ext;
-                        ext.desc = get_string("\t\tInput description: ");                         
-                        ext.amount = get_number("\t\tInput extension: ");
-                        getchar();
-
-                        if (exit_code == SUCCESS) {
-                            increase_memory(array, &max_size, *size);
-                            node_constructor(array, *size, type, sum, contragent, date, ext);
-                            (*size)++;
-                        }
-                        else {
-                            free(ext.desc);
-                            free(date);
-                            free(contragent);
-                            free(type);
-                            break;
-                        }
-                    }
-                    else {
-                        free(date);
-                        free(contragent);
-                        free(type);
-                        break;
-                    }
-                }
-                else {
-                    free(contragent);
-                    free(type);
-                    break;
-                }
-            } 
-            else {            
-                free(type);
-                break;
-            }
-        }
-        else {
-            free(type);
-            break;
+            (*array)[(*size)] = cur_contract;
+            (*size)++;
         }
     }
 
     exit_code = realloc_memory(array, *size);
 
     return exit_code;
+}
+
+int input_contract(struct contract *cur_contract)
+{
+    int exit_code = SUCCESS;
+
+    char *type = get_string("\tInput type: ");
+    if (strcmp(type, "none") == 0) {
+        free(type);
+        exit_code = END_INPUT;
+    }
+
+    if (exit_code == SUCCESS) {
+        size_t sum = 0;
+        char *contragent = NULL, *date = NULL;
+        struct extension ext;
+        
+        input_fields(&sum, &contragent, &date, &ext);
+        //exit_code = check_fields(sum, contragent, date, ext.desc, ext.);
+        
+        if (exit_code == SUCCESS) {
+            (*cur_contract).type = type;
+            (*cur_contract).sum = sum;
+            (*cur_contract).contragent = contragent;
+            (*cur_contract).date = date;
+            (*cur_contract).extension = ext;
+        }
+        else {
+            //free_fields(&sum, &contragent, &date, &ext);
+            
+            free(ext.desc);
+            free(date);
+            free(contragent);
+            free(type);
+        }
+
+    }
+
+    return exit_code;
+}
+
+void input_fields(size_t *sum, char **contragent, char **date, struct extension *ext)
+{
+    *sum = get_number("\tInput sum: ");
+    getchar();
+    
+    *contragent = get_string("\tInput contragent: ");
+    *date = get_string("\tInput date (dd-mm-yyyy): ");
+        
+    printf("\tInput extension\n");
+    (*ext).desc = get_string("\t\tInput description: ");                         
+    (*ext).amount = get_number("\t\tInput extension: ");
+    getchar();
 }
 
 char *get_string(const char *msg)
@@ -118,14 +115,4 @@ int get_number(const char *msg)
     scanf("%d", &count);
 
     return count;
-}
-
-void node_constructor(struct contract **array, const size_t size, 
-                        char *type, int sum, char *contragent, char *date, struct extension ext)
-{
-    (*array)[size].type = type;
-    (*array)[size].sum = sum;
-    (*array)[size].contragent = contragent;
-    (*array)[size].date = date;
-    (*array)[size].extension = ext;
 }

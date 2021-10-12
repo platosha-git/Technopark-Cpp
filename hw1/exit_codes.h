@@ -7,4 +7,6 @@
 #define COUNT_ERR 3
 #define DATE_ERR 4
 
+#define END_INPUT 5
+
 #endif
