@@ -17,7 +17,7 @@ jobs:
           sudo apt install clang-tidy
           sudo apt install lcov
           
-        
+          
       - name: Build
         run: |
           cd hw1
@@ -31,13 +31,7 @@ jobs:
           cd hw1/build
           run-clang-tidy "../*" -p . > report-clang.txt
 
-  Test:
-    runs-on: Ubuntu-20.04
-    needs: Setup
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v2
-        
+
       - name: Unit-tests
         run: |
           cd hw1/tests
@@ -54,13 +48,7 @@ jobs:
           valgrind --log-file=report-valgrind1.txt -- ./mem_test
           valgrind --log-file=report-valgrind2.txt -- ./correct_test
 
-  Report:
-    runs-on: Ubuntu-20.04
-    needs: [Setup, Test]
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v2
-        
+
       - name: Coverage
         run: |
           cd hw1/tests/build
