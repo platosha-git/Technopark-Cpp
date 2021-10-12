@@ -42,14 +42,32 @@ int realloc_memory(struct contract **array, const size_t size)
     return exit_code;
 }
 
+void free_fields(char **type, char **contragent, char **date, struct extension *ext)
+{
+    if (*type != NULL) {
+        free(*type);
+    }
+
+    if (*contragent != NULL) {
+        free(*contragent);
+    }
+
+    if (*date != NULL) {
+        free(*date);
+    }
+
+    if ((*ext).desc != NULL) {
+        free((*ext).desc);
+    }
+}
+
 void free_array(struct contract **array, const size_t size)
 {
     if (*array != NULL) {
         for (size_t i = 0; i < size; i++) {
-            free((*array)[i].type);
-            free((*array)[i].contragent);
-            free((*array)[i].date);
-            free((*array)[i].extension.desc);
+            struct contract cur_contract = (*array)[i];
+            free_fields(&cur_contract.type, &cur_contract.contragent, 
+                &cur_contract.date, &cur_contract.extension);
         }
 
         free((*array));

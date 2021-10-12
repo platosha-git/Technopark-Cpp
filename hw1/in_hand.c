@@ -45,7 +45,7 @@ int input_contract(struct contract *cur_contract)
         struct extension ext;
         
         input_fields(&sum, &contragent, &date, &ext);
-        //exit_code = check_fields(sum, contragent, date, ext.desc, ext.);
+        exit_code = check_fields(sum, contragent, date, ext);
         
         if (exit_code == SUCCESS) {
             (*cur_contract).type = type;
@@ -55,12 +55,7 @@ int input_contract(struct contract *cur_contract)
             (*cur_contract).extension = ext;
         }
         else {
-            //free_fields(&sum, &contragent, &date, &ext);
-            
-            free(ext.desc);
-            free(date);
-            free(contragent);
-            free(type);
+            free_fields(&type, &contragent, &date, &ext);
         }
 
     }

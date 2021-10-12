@@ -10,12 +10,10 @@
 void search_agent(const struct contract *array, const size_t size)
 {
     struct agent *res_array = create_res_array(array, size);
-
     sort_contracts(res_array, size, cmp_sum);
     
     char *(res_agents)[num_agents];
     size_t found_agents = get_agents(&res_agents, res_array, size);
-
     output_result(res_agents, found_agents);
 
     free(res_array);
@@ -43,6 +41,7 @@ struct agent *create_res_array(const struct contract *array, const size_t size)
     return res_array;
 }
 
+
 void sort_contracts(struct agent *base, const size_t num, int (*cmp)(struct agent, struct agent))
 {
     for (size_t i = 0; i < num; i++ ) {
@@ -65,6 +64,7 @@ int cmp_sum(struct agent a, struct agent b)
 size_t get_agents(char *(*res_agents)[num_agents], const struct agent *res_array, const size_t size)
 {
     size_t idx_agent = 0;
+
     for (size_t i = 0; i < size && idx_agent < num_agents; i++) {
         char *cur_agent = res_array[i].name;
 

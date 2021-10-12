@@ -4,20 +4,20 @@
 
 //строка
 TEST(SEARCH_TEST, CORRECT_STR) {
-        EXPECT_EQ(correct_string("success"), SUCCESS);
+        EXPECT_EQ(is_correct_string("success"), true);
 }
 
 TEST(SEARCH_TEST, INCORRECT_STR) {
-        EXPECT_EQ(correct_string("success2"), STRING_ERR);
+        EXPECT_EQ(is_correct_string("success2"), false);
 }
 
 //число
 TEST(SEARCH_TEST, CORRECT_NUM) {
-    	EXPECT_EQ(correct_number(1), SUCCESS);
+    	EXPECT_EQ(is_correct_number(1), true);
 }
 
 TEST(SEARCH_TEST, INCORRECT_NUM) {
-        EXPECT_EQ(correct_number(-1), COUNT_ERR);
+        EXPECT_EQ(is_correct_number(-1), false);
 }
 
 //день

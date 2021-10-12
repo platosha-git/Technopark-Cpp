@@ -17,7 +17,7 @@ void output_struct(const struct contract *array, const size_t size)
     }
 }
 
-output_result(char *(*res_agents), const size_t num)
+void output_result(char *(*res_agents), const size_t num)
 {
     for (size_t i = 0; i < num; i++) {
         printf("Agent %ld: %s\n", i + 1, res_agents[i]);
