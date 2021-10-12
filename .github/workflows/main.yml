@@ -21,9 +21,12 @@ jobs:
     runs-on: Ubuntu-20.04
     needs: Setup
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v2
+        
       - name: Build
         run: |
-          cd Technopark-Cpp/hw1
+          cd hw1
           mkdir build
           cd build
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1
