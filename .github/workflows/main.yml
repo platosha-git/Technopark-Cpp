@@ -34,6 +34,9 @@ jobs:
     runs-on: Ubuntu-20.04
     needs: Setup
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v2
+        
       - name: Unit-tests
         run: |
           cd hw1/tests
