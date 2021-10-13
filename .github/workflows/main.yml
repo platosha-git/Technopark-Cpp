@@ -13,9 +13,7 @@ jobs:
           sudo apt install git
           sudo apt install libgtest-dev
           sudo apt install build-essential
-          sudo apt install valgrind
           sudo apt install clang-tidy
-          sudo apt install lcov
                     
       - name: Build
         run: |
@@ -53,12 +51,14 @@ jobs:
     
       - name: Valgrind
         run: |
+          sudo apt install valgrind
           cd hw1/tests/build
           valgrind --log-file=report-valgrind1.txt -- ./mem_test
           valgrind --log-file=report-valgrind2.txt -- ./correct_test
           
       - name: Coverage
         run: |
+          sudo apt install lcov
           cd hw1/tests/build
           lcov -t "hw1" -o hw1.info -c -d .
           lcov --extract hw1.info "*/hw1/*" -o hw1.info
