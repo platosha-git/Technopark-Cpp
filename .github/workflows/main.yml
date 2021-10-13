@@ -1,0 +1,57 @@
+name: hw1
+on: [push, pull_request]
+
+jobs:
+  Setup:
+    runs-on: Ubuntu-20.04
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v2
+        
+      - name: Build
+        run: |
+          sudo apt install libgtest-dev
+          cd hw1
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+          make
+          
+      - name: Clang
+        run: |
+          sudo apt install clang-tidy
+          cd hw1/build
+          run-clang-tidy "../*" -p . > report-clang.txt
+
+  Test:
+    runs-on: Ubuntu-20.04
+    needs: Setup
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v2  
+        
+      - name: Unit-tests
+        run: |
+          sudo apt install libgtest-dev
+          cd hw1/tests
+          mkdir build
+          cd build
+          cmake ..
+          make
+          ./correct_test
+          ./mem_test
+    
+      - name: Valgrind
+        run: |
+          sudo apt install valgrind
+          cd hw1/tests/build
+          valgrind --log-file=report-valgrind1.txt -- ./mem_test
+          valgrind --log-file=report-valgrind2.txt -- ./correct_test
+          
+      - name: Coverage
+        run: |
+          sudo apt install lcov
+          cd hw1/tests/build
+          lcov -t "hw1" -o hw1.info -c -d .
+          lcov --extract hw1.info "*/hw1/*" -o hw1.info
+          genhtml -o report-lcov.html hw1.info
