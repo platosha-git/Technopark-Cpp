@@ -8,15 +8,9 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v2
         
-      - name: Setting up a vm
-        run: |
-          sudo apt install git
-          sudo apt install libgtest-dev
-          sudo apt install build-essential
-          sudo apt install clang-tidy
-                    
       - name: Build
         run: |
+          sudo apt install libgtest-dev
           cd hw1
           mkdir build
           cd build
@@ -25,6 +19,7 @@ jobs:
           
       - name: Clang
         run: |
+          sudo apt install clang-tidy
           cd hw1/build
           run-clang-tidy "../*" -p . > report-clang.txt
 
@@ -33,14 +28,11 @@ jobs:
     needs: Setup
     steps:
       - name: Checkout repository code
-        uses: actions/checkout@v2
-        
-      - name: Installing
-        run: |
-          sudo apt install libgtest-dev
+        uses: actions/checkout@v2  
         
       - name: Unit-tests
         run: |
+          sudo apt install libgtest-dev
           cd hw1/tests
           mkdir build
           cd build
